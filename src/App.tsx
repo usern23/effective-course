@@ -1,10 +1,11 @@
-
-import Header from "./components/Header/Header";
-import Footer from "./components/Footer/Footer";
+import { BrowserRouter } from "react-router-dom";
+import Router from "./router";
 
 const App = () => {
   return (
-      <><Header /><Footer /></>
+    <BrowserRouter>
+      <Router />
+    </BrowserRouter>
   );
 };
 
