@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import comicsData from "../../mocks/mockComics";
 import classes from "./ComicDetails.module.css";
@@ -16,11 +16,19 @@ function ComicDetails() {
     const [favorites, setFavorites] = useState<Record<string, boolean>>({});
     const [hovered, setHovered] = useState(false);
 
+    useEffect(() => {
+        const storedFavorites = localStorage.getItem("favorites");
+        if (storedFavorites) {
+            setFavorites(JSON.parse(storedFavorites));
+        }
+    }, []);
+
     const toggleFavorite = (comicId: string) => {
-        setFavorites((prev) => ({
-            ...prev,
-            [comicId]: !prev[comicId],
-        }));
+        setFavorites((prev) => {
+            const updatedFavorites = { ...prev, [comicId]: !prev[comicId] };
+            localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+            return updatedFavorites;
+        });
     };
 
     const isFavorite = favorites[comic.id] || false;
@@ -33,16 +41,18 @@ function ComicDetails() {
             <div className={classes.comics}>
                 <img src={comic.image} alt={comic.name} />
             </div>
-
             <div className={classes.content}>
-                <div 
-                    className={classes.titleWrapper} 
-                    onMouseEnter={() => setHovered(true)} 
+                <div
+                    className={classes.titleWrapper}
+                    onMouseEnter={() => setHovered(true)}
                     onMouseLeave={() => setHovered(false)}
                 >
                     <h1>{comic.name}</h1>
                     {hovered && (
-                        <button className={classes.favoriteButton} onClick={() => toggleFavorite(comic.id)}>
+                        <button
+                            className={classes.favoriteButton}
+                            onClick={() => toggleFavorite(comic.id)}
+                        >
                             {isFavorite ? <FaHeart size={24} color="red" /> : <FaRegHeart size={24} />}
                         </button>
                     )}

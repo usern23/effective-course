@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect  } from "react";
 import classes from './Comics.module.css';
 import mockComics from '../../mocks/mockComics';
 import ItemCard from '../../components/ItemCard/ItemCard';
@@ -8,8 +8,22 @@ function Comics() {
     const itemsPerPage = 6; 
     const [comics, setComics] = useState(mockComics);
     const [currentPage, setCurrentPage] = useState(1);
+    const [favorites, setFavorites] = useState<Record<string, boolean>>({});
+
+    useEffect(() => {
+        const storedFavorites = localStorage.getItem("favorites");
+        if (storedFavorites) {
+            setFavorites(JSON.parse(storedFavorites));
+        }
+    }, []);
 
     const toggleFavorite = (id: string) => {
+        setFavorites((prevFavorites) => {
+            const updatedFavorites = { ...prevFavorites, [id]: !prevFavorites[id] };
+            localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+            return updatedFavorites;
+        });
+
         setComics((prevComics) =>
             prevComics.map((comic) =>
                 comic.id === id ? { ...comic, isFavorite: !comic.isFavorite } : comic
@@ -39,7 +53,12 @@ function Comics() {
                 </div>
                 <div className={classes.comics_items}>
                     {currentComics.map((comic) => (
-                        <ItemCard key={comic.id} {...comic} toggleFavorite={toggleFavorite} />
+                        <ItemCard 
+                            key={comic.id} 
+                            {...comic} 
+                            isFavorite={favorites[comic.id] || false} 
+                            toggleFavorite={toggleFavorite} 
+                        />
                     ))}
                 </div>
 
