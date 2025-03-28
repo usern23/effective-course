@@ -62,13 +62,13 @@ function Comics() {
                     ))}
                 </div>
 
-                <Pagination 
-                    currentPage={currentPage} 
-                    totalPages={totalPages} 
-                    setCurrentPage={setCurrentPage} 
-                    nextPage={nextPage} 
-                    prevPage={prevPage} 
-                />
+                    <Pagination 
+                        currentPage={currentPage} 
+                        totalPages={totalPages} 
+                        setCurrentPage={setCurrentPage} 
+                        nextPage={nextPage} 
+                        prevPage={prevPage} 
+                    />
             </div>
         </section>
     );
