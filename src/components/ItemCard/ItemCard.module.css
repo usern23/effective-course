@@ -8,10 +8,13 @@
     transition: transform 0.2s ease-in-out;
     justify-content: space-between;
     height: 100%;
+    color: rgb(0, 0, 0)
 }
 
 .item:hover {
     transform: scale(1.05);
+    color: rgb(255, 0, 0);
+    border-color:rgb(255, 0, 0)
 }
 
 .image {
