@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import comicsData from "../../mocks/mockComics";
 import classes from "./ComicDetails.module.css";
@@ -16,17 +16,9 @@ function ComicDetails() {
     const [favorites, setFavorites] = useState<Record<string, boolean>>({});
     const [hovered, setHovered] = useState(false);
 
-    useEffect(() => {
-        const storedFavorites = localStorage.getItem("favorites");
-        if (storedFavorites) {
-            setFavorites(JSON.parse(storedFavorites));
-        }
-    }, []);
-
     const toggleFavorite = (comicId: string) => {
         setFavorites((prev) => {
             const updatedFavorites = { ...prev, [comicId]: !prev[comicId] };
-            localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
             return updatedFavorites;
         });
     };
@@ -36,8 +28,7 @@ function ComicDetails() {
     const relatedComics = comicsData.filter((c) => c.id !== id).slice(0, 3);
 
     return (
-        <div className={classes.details}>
-
+        <section className={classes.details}>
             <div className={classes.comics}>
                 <img src={comic.image} alt={comic.name} />
             </div>
@@ -60,7 +51,7 @@ function ComicDetails() {
                 <p className={classes.description}>{comic.description}</p>
             </div>
 
-            <div className={classes.relatedComics}>
+            <section className={classes.relatedComics}>
                 <h2>Related Comics</h2>
                 <div className={classes.cards}>
                     {relatedComics.map((c) => (
@@ -74,8 +65,8 @@ function ComicDetails() {
                         />
                     ))}
                 </div>
-            </div>
-        </div>
+            </section>
+        </section>
     );
 }
 
