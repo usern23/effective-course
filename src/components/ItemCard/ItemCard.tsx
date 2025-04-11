@@ -8,8 +8,13 @@ interface ItemCardProps extends IItemCard {
     toggleFavorite: (id: string) => void;
 }
 
-const ItemCard: React.FC<ItemCardProps> = ({ id, name, image, isFavorite, toggleFavorite }) => {
+const ItemCard: React.FC<ItemCardProps> = ({ id, title, image, isFavorite, toggleFavorite }) => {
     const [isHovered, setIsHovered] = useState(false);
+    const [imageError, setImageError] = useState(false);
+
+    const handleImageError = () => {
+        setImageError(true);
+    };
 
     return (
         <NavLink
@@ -20,7 +25,11 @@ const ItemCard: React.FC<ItemCardProps> = ({ id, name, image, isFavorite, toggle
             onMouseLeave={() => setIsHovered(false)}
         >
             <div className={classes.image}>
-                <img src={image} alt={name} />
+                <img 
+                    src={imageError ? 'https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg' : image} 
+                    alt={title} 
+                    onError={handleImageError}
+                />
                 {isHovered && (
                     <button className={classes.favoriteBtn} onClick={(e) => { e.preventDefault(); toggleFavorite(id); }}>
                         {isFavorite ? <FaHeart color="red" /> : <FaRegHeart />}
@@ -28,7 +37,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ id, name, image, isFavorite, toggle
                 )}
             </div>
             <div className={classes.name}>
-                <p>{name}</p>
+                <p>{title}</p>
             </div>
         </NavLink>
     );

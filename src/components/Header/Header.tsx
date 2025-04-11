@@ -1,8 +1,13 @@
 import { NavLink } from "react-router-dom";
+import { observer } from "mobx-react-lite";
+import { comicsStore } from "../../store/ComicsStore";
+
 import classes from "./Header.module.css";
 import logoMarvel from "../../assets/marvelredlogo.png";
 
-function Header() {
+const Header = observer(() => {
+  const favoritesCount = comicsStore.favorites.length;
+  
   return (
     <header className={classes.header}>
       <div className={classes.container}>
@@ -20,12 +25,12 @@ function Header() {
             to="/favorites" 
             className={({ isActive }) => `${classes.menu} ${isActive ? classes.active : ""}`}
           >
-            Favorites
+            Favorites {favoritesCount > 0 && <span className={classes.badge}>{favoritesCount}</span>}
           </NavLink>
         </nav>
       </div>
     </header>
   );
-}
+});
 
 export default Header;
