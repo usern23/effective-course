@@ -1,95 +1,53 @@
-import { useState } from "react";
-import classes from './Comics.module.css';
-import mockComics from '../../mocks/mockComics';
+import { useEffect } from 'react';
+import { observer } from 'mobx-react-lite';
+import { comicsStore } from '../../store/ComicsStore';
 import ItemCard from '../../components/ItemCard/ItemCard';
+import Pagination from '../../components/Pagination/Pagination';
+import classes from './Comics.module.css';
 
-function Comics() {
-    // Изначально добавляем первые 3 комикса в избранное
-    const initialFavorites: Record<string, boolean> = {
-        "0": true,
-        "1": true,
-        "2": true
+const Comics = observer(() => {
+    useEffect(() => {
+        comicsStore.loadComics(0);
+    }, []);
+
+    const handlePageChange = (page: number) => {
+        comicsStore.loadComics((page - 1) * comicsStore.pageSize);
     };
-
-    const [comics, setComics] = useState(mockComics);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [favorites, setFavorites] = useState<Record<string, boolean>>(initialFavorites);
 
     const toggleFavorite = (id: string) => {
-        setFavorites((prevFavorites) => {
-            const updatedFavorites = { ...prevFavorites, [id]: !prevFavorites[id] };
-            return updatedFavorites;
-        });
-
-        setComics((prevComics) =>
-            prevComics.map((comic) =>
-                comic.id === id ? { ...comic, isFavorite: !comic.isFavorite } : comic
-            )
-        );
+        const comic = comicsStore.comics.find(c => c.id.toString() === id);
+        if (comic) {
+            comicsStore.toggleFavorite(comic);
+        }
     };
 
-    const totalPages = 892; 
-
-    const renderPagination = () => {
-        const maxButtons = 4;
-        const pageButtons = [];
-        
-        pageButtons.push(
-            <button 
-                key={1} 
-                onClick={() => setCurrentPage(1)} 
-                className={currentPage === 1 ? classes.activePage : classes.pageButton}
-            >
-                1
-            </button>
+    if (comicsStore.loading) {
+        return (
+            <section className={classes.comics}>
+                <div className={classes.container}>
+                    <div className={classes.loading}>Загрузка...</div>
+                </div>
+            </section>
         );
-        
-        let startPage = Math.max(2, currentPage - 1);
-        let endPage = Math.min(totalPages - 1, startPage + maxButtons - 2);
-        
-        if (currentPage > totalPages - maxButtons) {
-            startPage = Math.max(2, totalPages - maxButtons);
-            endPage = totalPages - 1;
-        }
-        
-        if (startPage > 2) {
-            pageButtons.push(
-                <span key="ellipsis1" className={classes.ellipsis}>...</span>
-            );
-        }
-        
-        for (let i = startPage; i <= endPage; i++) {
-            pageButtons.push(
-                <button 
-                    key={i} 
-                    onClick={() => setCurrentPage(i)} 
-                    className={currentPage === i ? classes.activePage : classes.pageButton}
-                >
-                    {i}
-                </button>
-            );
-        }
-        
-        if (endPage < totalPages - 1) {
-            pageButtons.push(
-                <span key="ellipsis2" className={classes.ellipsis}>...</span>
-            );
-        }
-        
-        if (totalPages > 1) {
-            pageButtons.push(
-                <button 
-                    key={totalPages} 
-                    onClick={() => setCurrentPage(totalPages)} 
-                    className={currentPage === totalPages ? classes.activePage : classes.pageButton}
-                >
-                    {totalPages}
-                </button>
-            );
-        }
-        
-        return pageButtons;
-    };
+    }
+
+    if (comicsStore.error) {
+        return (
+            <section className={classes.comics}>
+                <div className={classes.container}>
+                    <div className={classes.error}>{comicsStore.error}</div>
+                </div>
+            </section>
+        );
+    }
+
+    const comics = comicsStore.comics.map(comic => ({
+        id: comic.id.toString(),
+        title: comic.title,
+        description: comic.description,
+        image: `${comic.thumbnail.path}.${comic.thumbnail.extension}`,
+        isFavorite: comicsStore.isFavorite(comic.id)
+    }));
 
     return (
         <section className={classes.comics}>
@@ -102,18 +60,21 @@ function Comics() {
                         <ItemCard 
                             key={comic.id} 
                             {...comic} 
-                            isFavorite={favorites[comic.id] || false} 
                             toggleFavorite={toggleFavorite} 
                         />
                     ))}
                 </section>
-
+                
                 <div className={classes.pagination}>
-                    {renderPagination()}
+                    <Pagination
+                        currentPage={Math.floor(comicsStore.offset / comicsStore.pageSize) + 1}
+                        totalPages={Math.ceil(comicsStore.total / comicsStore.pageSize)}
+                        onPageChange={handlePageChange}
+                    />
                 </div>
             </div>
         </section>
     );
-}
+});
 
 export default Comics;
