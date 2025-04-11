@@ -1,36 +1,58 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { observer } from "mobx-react-lite";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
-import comicsData from "../../mocks/mockComics";
-import classes from "./ComicDetails.module.css";
+import { comicsStore } from "../../store/ComicsStore";
 import ItemCard from "../../components/ItemCard/ItemCard";
+import classes from "./ComicDetails.module.css";
 
-function ComicDetails() {
-    const { id } = useParams();
-    const comic = comicsData.find((c) => c.id === id);
-
-    if (!comic) {
+const ComicDetails = observer(() => {
+    const { id } = useParams<{ id: string }>();
+    const [hovered, setHovered] = useState(false);
+    
+    useEffect(() => {
+        if (id) {
+            comicsStore.loadComic(parseInt(id));
+        }
+        
+        return () => {
+            comicsStore.resetCurrentComic();
+        };
+    }, [id]);
+    
+    if (comicsStore.loading) {
+        return <div className={classes.loading}>Загрузка...</div>;
+    }
+    
+    if (comicsStore.error) {
+        return <div className={classes.error}>Ошибка: {comicsStore.error}</div>;
+    }
+    
+    if (!comicsStore.currentComic) {
         return <p>Комикс не найден</p>;
     }
-
-    const [favorites, setFavorites] = useState<Record<string, boolean>>({});
-    const [hovered, setHovered] = useState(false);
-
+    
+    const comic = comicsStore.currentComic;
     const toggleFavorite = (comicId: string) => {
-        setFavorites((prev) => {
-            const updatedFavorites = { ...prev, [comicId]: !prev[comicId] };
-            return updatedFavorites;
-        });
+        const comicObj = comicId === comic.id.toString() 
+            ? comic 
+            : comicsStore.relatedComics.find(c => c.id.toString() === comicId);
+        
+        if (comicObj) {
+            comicsStore.toggleFavorite(comicObj);
+        }
     };
-
-    const isFavorite = favorites[comic.id] || false;
-
-    const relatedComics = comicsData.filter((c) => c.id !== id).slice(0, 3);
-
+    
     return (
         <section className={classes.details}>
             <div className={classes.comics}>
-                <img src={comic.image} alt={comic.name} />
+                <img 
+                    src={`${comic.thumbnail.path}.${comic.thumbnail.extension}`} 
+                    alt={comic.title}
+                    onError={(e) => {
+                        (e.target as HTMLImageElement).src = 'https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg';
+                    }}
+                />
             </div>
             <div className={classes.content}>
                 <div
@@ -38,36 +60,70 @@ function ComicDetails() {
                     onMouseEnter={() => setHovered(true)}
                     onMouseLeave={() => setHovered(false)}
                 >
-                    <h1>{comic.name}</h1>
+                    <h1>{comic.title}</h1>
                     {hovered && (
                         <button
                             className={classes.favoriteButton}
-                            onClick={() => toggleFavorite(comic.id)}
+                            onClick={() => toggleFavorite(comic.id.toString())}
                         >
-                            {isFavorite ? <FaHeart size={24} color="red" /> : <FaRegHeart size={24} />}
+                            {comic.isFavorite ? <FaHeart size={24} color="red" /> : <FaRegHeart size={24} />}
                         </button>
                     )}
                 </div>
-                <p className={classes.description}>{comic.description}</p>
+                {comic.description && (
+                    <p className={classes.description}>{comic.description}</p>
+                )}
+                
+                <div className={classes.metadata}>
+                    {comic.series && (
+                        <p><strong>Серия:</strong> {comic.series.name}</p>
+                    )}
+                    
+                    {comic.issueNumber !== undefined && (
+                        <p><strong>Номер выпуска:</strong> {comic.issueNumber}</p>
+                    )}
+                    
+                    {comic.pageCount && (
+                        <p><strong>Количество страниц:</strong> {comic.pageCount}</p>
+                    )}
+                    
+                    {comic.format && (
+                        <p><strong>Формат:</strong> {comic.format}</p>
+                    )}
+                </div>
             </div>
 
             <section className={classes.relatedComics}>
-                <h2>Related Comics</h2>
-                <div className={classes.cards}>
-                    {relatedComics.map((c) => (
-                        <ItemCard
-                            key={c.id}
-                            id={c.id}
-                            name={c.name}
-                            image={c.image}
-                            isFavorite={favorites[c.id] || false}
-                            toggleFavorite={toggleFavorite}
-                        />
-                    ))}
-                </div>
+                <h2>Похожие комиксы</h2>
+                
+                {comicsStore.loadingRelated ? (
+                    <div className={classes.loading}>Загрузка связанных комиксов...</div>
+                ) : comicsStore.relatedComics.length > 0 ? (
+                    <div className={classes.cards}>
+                        {comicsStore.relatedComics.map((relatedComic) => {
+                            const comicData = {
+                                id: relatedComic.id.toString(),
+                                title: relatedComic.title,
+                                image: `${relatedComic.thumbnail.path}.${relatedComic.thumbnail.extension}`,
+                                isFavorite: comicsStore.isFavorite(relatedComic.id),
+                                description: relatedComic.description
+                            };
+                            
+                            return (
+                                <ItemCard
+                                    key={relatedComic.id}
+                                    {...comicData}
+                                    toggleFavorite={toggleFavorite}
+                                />
+                            );
+                        })}
+                    </div>
+                ) : (
+                    <p>Связанные комиксы не найдены</p>
+                )}
             </section>
         </section>
     );
-}
+});
 
 export default ComicDetails;
