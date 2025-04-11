@@ -1,33 +1,27 @@
-import { useState } from "react";
+import React from "react";
+import { observer } from "mobx-react-lite";
 import ItemCard from "../../components/ItemCard/ItemCard";
+import { comicsStore } from "../../store/ComicsStore";
 import classes from "./Favorites.module.css";
-import mockComics from "../../mocks/mockComics";
-import IComics from "../../interfaces/IComics";
 
-function Favorites() {
-    const initialFavorites: Record<string, boolean> = {
-        "0": true,
-        "1": true,
-        "2": true
-    };
-
-    const [favorites, setFavorites] = useState<Record<string, boolean>>(initialFavorites);
-    const [favoriteComics, setFavoriteComics] = useState<IComics[]>(
-        mockComics.filter(comic => initialFavorites[comic.id])
-    );
-
+const Favorites: React.FC = observer(() => {
+    const favorites = comicsStore.favorites;
+    
     const toggleFavorite = (id: string) => {
-        setFavorites((prevFavorites) => {
-            const updatedFavorites = { ...prevFavorites, [id]: !prevFavorites[id] };
-            
-            setFavoriteComics(mockComics.filter(comic => 
-                id === comic.id ? updatedFavorites[id] : prevFavorites[comic.id]
-            ));
-
-            return updatedFavorites;
-        });
+        const comic = favorites.find(c => c.id.toString() === id);
+        if (comic) {
+            comicsStore.toggleFavorite(comic);
+        }
     };
-
+    
+    const favoriteComics = favorites.map(comic => ({
+        id: comic.id.toString(),
+        title: comic.title,
+        description: comic.description,
+        image: `${comic.thumbnail.path}.${comic.thumbnail.extension}`,
+        isFavorite: true
+    }));
+    
     return (
         <section className={classes.favorites}>
             <div className={classes.container}>
@@ -40,17 +34,18 @@ function Favorites() {
                             <ItemCard 
                                 key={comic.id} 
                                 {...comic} 
-                                isFavorite={favorites[comic.id] || false} 
                                 toggleFavorite={toggleFavorite} 
                             />
                         ))}
                     </section>
                 ) : (
-                    <p className={classes.empty}></p>
+                    <div className={classes.empty}>
+                        <p>У вас пока нет избранных комиксов</p>
+                    </div>
                 )}
             </div>
         </section>
     );
-}
+});
 
 export default Favorites;
