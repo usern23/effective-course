@@ -1,7 +1,9 @@
 interface IItemCard {
-  id:string;
-  name: string;
+  id: string;
+  title: string;
+  description: string | null;
   image: string;
-  isFavorite: boolean
+  isFavorite: boolean;
 }
+
 export default IItemCard;
