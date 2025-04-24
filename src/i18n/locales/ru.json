@@ -1,0 +1,22 @@
+{
+  "header": {
+    "comics": "Комиксы",
+    "favorites": "Избранное"
+  },
+  "footer": {
+    "dataCopyright": "Данные предоставлены Marvel. © {{year}} MARVEL"
+  },
+  "language": {
+    "en": "Английский",
+    "ru": "Русский"
+  },
+  "errors": {
+    "loadingComics": "Ошибка при загрузке комиксов",
+    "loadingComic": "Ошибка при загрузке комикса",
+    "loadingRelatedComics": "Ошибка при загрузке связанных комиксов"
+  },
+  "favorites": {
+    "empty": "У вас пока нет избранных комиксов",
+    "count": "Избранное ({{count}})"
+  }
+} 
