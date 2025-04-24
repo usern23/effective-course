@@ -1,11 +1,13 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
+import { useTranslation } from "react-i18next";
 import ItemCard from "../../components/ItemCard/ItemCard";
 import { comicsStore } from "../../store/ComicsStore";
 import classes from "./Favorites.module.css";
 
 const Favorites: React.FC = observer(() => {
     const favorites = comicsStore.favorites;
+    const { t } = useTranslation();
     
     const toggleFavorite = (id: string) => {
         const comic = favorites.find(c => c.id.toString() === id);
@@ -26,7 +28,7 @@ const Favorites: React.FC = observer(() => {
         <section className={classes.favorites}>
             <div className={classes.container}>
                 <div className={classes.title}>
-                    <h3>Favorites ({favoriteComics.length})</h3>
+                    <h3>{t('favorites.count', { count: favoriteComics.length })}</h3>
                 </div>
                 {favoriteComics.length > 0 ? (
                     <section className={classes.cards}>
@@ -40,7 +42,7 @@ const Favorites: React.FC = observer(() => {
                     </section>
                 ) : (
                     <div className={classes.empty}>
-                        <p>У вас пока нет избранных комиксов</p>
+                        <p>{t('favorites.empty')}</p>
                     </div>
                 )}
             </div>
