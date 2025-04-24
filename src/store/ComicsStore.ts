@@ -2,6 +2,7 @@ import { makeAutoObservable, computed } from 'mobx';
 import { getComicsList, getComicsBySeries, getComicsByIssueNumber } from '../api/comicsList';
 import { getComicById } from '../api/comicDetails';
 import { IComics } from '../interfaces/IComics';
+import i18n from '../i18n/react-i18next';
 
 class ComicsStore {
     comics: IComics[] = []; 
@@ -67,7 +68,7 @@ class ComicsStore {
             });
             this.total = response.totalItems;
         } catch (error) {
-            this.error = 'Ошибка при загрузке комиксов';
+            this.error = i18n.t('errors.loadingComics');
             console.error('Error:', error);
         } finally {
             this.loading = false;
@@ -125,7 +126,7 @@ class ComicsStore {
                 this.loadRelatedComics();
             }
         } catch (error) {
-            this.error = 'Ошибка при загрузке комикса';
+            this.error = i18n.t('errors.loadingComic');
             console.error('Error:', error);
         } finally {
             this.loading = false;
@@ -174,7 +175,7 @@ class ComicsStore {
             );
             
         } catch (error) {
-            this.errorRelated = 'Ошибка при загрузке связанных комиксов';
+            this.errorRelated = i18n.t('errors.loadingRelatedComics');
         } finally {
             this.loadingRelated = false;
         }
