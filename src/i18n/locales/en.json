@@ -10,6 +10,10 @@
     "en": "English",
     "ru": "Russian"
   },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark"
+  },
   "errors": {
     "loadingComics": "Error loading comics",
     "loadingComic": "Error loading comic",
