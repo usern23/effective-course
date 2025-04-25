@@ -39,14 +39,14 @@
 .content h1 {
     margin-bottom: 20px;
     font-size: 28px;
-    color: #202020;
+    color: var(--text-color);
 }
 
 .description {
     max-width: 100%;
     text-align: justify;
     line-height: 1.6;
-    color: #444;
+    color: var(--text-color);
     margin-bottom: 20px;
 }
 
@@ -61,9 +61,9 @@
 .relatedComics h2 {
     margin-bottom: 20px;
     font-size: 24px;
-    color: #202020;
+    color: var(--text-color);
     padding-bottom: 8px;
-    border-bottom: 2px solid #f0f0f0;
+    border-bottom: 2px solid var(--hover-bg);
 }
 
 .cards {
@@ -79,13 +79,13 @@
 }
 
 .cards::-webkit-scrollbar-thumb {
-    background-color: #ddd;
+    background-color: var(--hover-bg);
     border-radius: 10px;
 }
 
 .card {
     text-decoration: none;
-    color: black;
+    color: var(--text-color);
     width: 200px;
     transition: transform 0.2s ease;
 }
@@ -97,7 +97,7 @@
 .card img {
     width: 100%;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px var(--box-shadow);
 }
 
 .titleWrapper {
@@ -120,7 +120,7 @@
 }
 
 .metadata {
-    background-color: #f9f9f9;
+    background-color: var(--hover-bg);
     padding: 15px;
     border-radius: 8px;
     margin-top: 10px;
@@ -129,12 +129,12 @@
 
 .metadata p {
     margin: 8px 0;
-    color: #444;
+    color: var(--text-color);
 }
 
 .loading, .error {
     text-align: center;
     padding: 30px;
     font-size: 18px;
-    color: #555;
+    color: var(--text-color);
 }

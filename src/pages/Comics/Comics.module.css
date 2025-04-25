@@ -1,6 +1,6 @@
 .comics {
     padding: 20px;
-    background-color: #ffffff; 
+    background-color: var(--background-color);
 }
 
 .container {

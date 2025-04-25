@@ -1,11 +1,12 @@
 .footer {
-    background-color: #000000;
-    color: white;
+    background-color: var(--footer-background);
+    color: var(--footer-text);
     padding: 20px;
     text-align: center;
     width: 100%;
     bottom: 0;        
     left: 0;        
+    transition: background-color 0.3s, color 0.3s;
   }
   
   .container {
@@ -33,13 +34,13 @@
   }
   
   .text a {
-    color: #e74c3c;
+    color: var(--footer-link);
     text-decoration: none;
     transition: color 0.3s;
   }
   
   .text a:hover {
-    color: #d35400;
+    color: var(--footer-link-hover);
     text-decoration: underline;
   }
   

@@ -13,17 +13,17 @@
   height: 40px;
   margin: 0 5px;
   border-radius: 8px;
-  border: 1px solid #ddd;
-  background-color: #fff;
-  color: #202020;
+  border: 1px solid var(--hover-bg);
+  background-color: var(--background-color);
+  color: var(--text-color);
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
 
 .pageButton:hover:not(:disabled) {
-  background-color: #f2f2f2;
-  border-color: #ccc;
+  background-color: var(--hover-bg);
+  border-color: var(--hover-bg);
 }
 
 .pageButton:disabled {
@@ -32,7 +32,7 @@
 }
 
 .pageButton.active {
-  background-color: #ec1d24;
-  color: #fff;
-  border-color: #ec1d24;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  border-color: var(--primary-color);
 }

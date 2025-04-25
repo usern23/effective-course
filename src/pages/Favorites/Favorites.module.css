@@ -7,6 +7,7 @@
 
 .favorites {
     padding: 20px;
+    background-color: var(--background-color);
 }
 
 .container {
@@ -27,7 +28,7 @@
 
 .title h3 {
     margin: 0;
-    color: #202020;
+    color: var(--text-color);
 }
 
 .cards {
@@ -40,7 +41,7 @@
 .empty {
     text-align: center;
     font-size: 18px;
-    color: gray;
+    color: var(--text-color);
 }
 
 .empty p {
