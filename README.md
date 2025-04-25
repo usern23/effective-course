@@ -1,54 +1,83 @@
-# React + TypeScript + Vite
+# Marvel Comics App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Marvel Comics App — это веб-приложение, позволяющее просматривать и изучать комиксы вселенной Marvel. Приложение использует официальный Marvel API для получения данных о комиксах.
 
-Currently, two official plugins are available:
+## О приложении
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Marvel Comics App предоставляет удобный интерфейс для:
+- Просмотра каталога комиксов Marvel
+- Добавления комиксов в избранное
+- Просмотра детальной информации о каждом комиксе
+- Изучения связанных комиксов той же серии
 
-## Expanding the ESLint configuration
+## Технологический стек
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- React 19
+- TypeScript
+- Vite
+- MobX (для управления состоянием)
+- React Router v7 (для маршрутизации)
+- i18next (для интернационализации)
+- React Toastify (для уведомлений)
+- Marvel API
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Запуск приложения
+
+### Предварительные требования
+
+- Node.js (версия 18 или выше)
+- npm или yarn
+
+### Установка зависимостей
+
+```bash
+# Используя npm
+npm install
+
+# Или используя yarn
+yarn install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Запуск сервера разработки
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+# Используя npm
+npm run dev
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+# Или используя yarn
+yarn dev
 ```
+
+## Основные возможности
+
+### 1. Просмотр каталога комиксов
+- Постраничный просмотр комиксов
+- Отображение обложек и названий комиксов
+
+### 2. Детальная информация о комиксе
+- Описание комикса
+- Информация о серии
+- Связанные комиксы
+
+### 3. Избранное
+- Добавление комиксов в избранное
+- Просмотр списка избранных комиксов
+- Удаление комиксов из избранного
+
+### 4. Языковые настройки
+- Поддержка английского и русского языков
+- Переключение языка интерфейса
+
+### 5. Темы оформления
+- Светлая тема (по умолчанию)
+- Тёмная тема
+- Сохранение выбранной темы в локальном хранилище
+
+## Скриншоты приложения
+
+![Главная страница]
+![image](https://github.com/user-attachments/assets/0313ee02-a5a6-4a9d-ac1c-0c226b669b8f)
+
+![Тёмная тема]
+![image](https://github.com/user-attachments/assets/72367698-9a1a-4a8e-9759-60a1f20f7abe)
+
