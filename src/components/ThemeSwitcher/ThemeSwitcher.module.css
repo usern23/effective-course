@@ -1,0 +1,27 @@
+.switcher {
+  display: flex;
+  align-items: center;
+  padding: 8px 15px;
+  background-color: rgba(253, 253, 253, 0.1);
+  border-radius: 30px;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.3s, transform 0.2s;
+  margin-left: 15px;
+}
+
+.switcher:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+.icon {
+  font-size: 18px;
+  margin-right: 8px;
+}
+
+.text {
+  color: var(--secondary-color);
+  font-size: 14px;
+  font-weight: 500;
+} 
