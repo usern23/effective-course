@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "../LanguageSwitcher/LanguageSwitcher";
+import ThemeSwitcher from "../ThemeSwitcher/ThemeSwitcher";
 import { comicsStore } from "../../store/ComicsStore";
 
 import classes from "./Header.module.css";
@@ -32,7 +33,10 @@ const Header = observer(() => {
           </NavLink>
         </nav>
 
-        <LanguageSwitcher />
+        <div className={classes.controls}>
+          <LanguageSwitcher />
+          <ThemeSwitcher />
+        </div>
       </div>
     </header>
   );
