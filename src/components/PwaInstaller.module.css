@@ -1,0 +1,13 @@
+.button{
+    position: 'fixed',
+    bottom: '20px',
+    right: '20px',
+    background: '#ed1d24',
+    color: 'white',
+    border: 'none',
+    borderRadius: '8px',
+    padding: '10px 15px',
+    cursor: 'pointer',
+    boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
+    zIndex: 1000
+  }
