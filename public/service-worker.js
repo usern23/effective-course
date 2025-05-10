@@ -71,27 +71,18 @@ self.addEventListener('push', event => {
 
 self.addEventListener('notificationclick', event => {
   event.notification.close();
-
+  
   const clickUrl = event.notification.data?.url || '/';
   
   event.waitUntil(
     clients.matchAll({ type: 'window' }).then(clientList => {
       for (const client of clientList) {
-        if (client.url.includes(self.registration.scope) && 'focus' in client) {
+        if (client.url.includes(self.registration.scope)) {
           return client.focus();
         }
       }
-
-      if (clientList.length > 0) {
-        for (const client of clientList) {
-          if ('focus' in client) {
-            return client.focus();
-          }
-        }
-      }
-      if (clients.openWindow) {
-        return clients.openWindow(clickUrl);
-      }
+      
+      return clients.openWindow(clickUrl);
     })
   );
 }); 
