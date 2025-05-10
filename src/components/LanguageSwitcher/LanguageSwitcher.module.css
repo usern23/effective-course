@@ -1,0 +1,30 @@
+.languageSwitcher {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.langButton {
+  background: none;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+}
+
+.langButton:hover {
+  background-color: rgba(226, 54, 54, 0.1);
+  transform: scale(1.1);
+}
+
+.translateIcon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+} 

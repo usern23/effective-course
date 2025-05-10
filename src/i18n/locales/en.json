@@ -1,0 +1,26 @@
+{
+  "header": {
+    "comics": "Comics",
+    "favorites": "Favorites"
+  },
+  "footer": {
+    "dataCopyright": "Data provided by Marvel. © {{year}} MARVEL"
+  },
+  "language": {
+    "en": "English",
+    "ru": "Russian"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "errors": {
+    "loadingComics": "Error loading comics",
+    "loadingComic": "Error loading comic",
+    "loadingRelatedComics": "Error loading related comics"
+  },
+  "favorites": {
+    "empty": "You don't have any favorite comics yet",
+    "count": "Favorites ({{count}})"
+  }
+} 
